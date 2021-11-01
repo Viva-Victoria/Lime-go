@@ -2,6 +2,7 @@ package http
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"log"
@@ -13,16 +14,16 @@ import (
 
 type RequestBuilder func(body []byte) (*http.Request, error)
 
-func DefaultRequestBuilder(url string) RequestBuilder {
+func DefaultRequestBuilder(ctx context.Context, url string) RequestBuilder {
 	return func(body []byte) (*http.Request, error) {
-		return http.NewRequest(http.MethodPost, url, bytes.NewBuffer(body))
+		return http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewBuffer(body))
 	}
 }
 
 type Writer struct {
+	buildRequest RequestBuilder
 	pool         pool.Pool
 	client       http.Client
-	buildRequest RequestBuilder
 }
 
 func DefaultCore(url string) *Writer {
@@ -32,7 +33,7 @@ func DefaultCore(url string) *Writer {
 		client: http.Client{
 			Timeout: time.Second,
 		},
-		buildRequest: DefaultRequestBuilder(url),
+		buildRequest: DefaultRequestBuilder(context.Background(), url),
 	}
 }
 

@@ -2,6 +2,7 @@ package json
 
 import (
 	"encoding/json"
+
 	"github.com/Viva-Victoria/Lime-go/log"
 )
 
@@ -9,8 +10,8 @@ type Marshaller func(indent string, value interface{}) ([]byte, error)
 
 type Config struct {
 	log.Config
-	Indent  string
 	Marshal Marshaller
+	Indent  string
 }
 
 func DefaultConfig() Config {

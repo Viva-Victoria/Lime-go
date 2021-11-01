@@ -2,6 +2,7 @@ package stdout
 
 import (
 	"fmt"
+
 	pool "github.com/Viva-Victoria/go-pool"
 )
 

@@ -6,7 +6,6 @@ import (
 )
 
 type StringBuilder struct {
-	length int
 	buffer bytes.Buffer
 }
 

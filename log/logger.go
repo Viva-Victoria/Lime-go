@@ -2,38 +2,17 @@ package log
 
 import (
 	"fmt"
-	"github.com/Viva-Victoria/Lime-go/writer"
 	"runtime"
 	"strings"
 	"time"
+
+	"github.com/Viva-Victoria/Lime-go/writer"
 )
 
-type Entry struct {
-	Event
-	callback func(event Event) error
-}
-
-func (e *Entry) With(params ...interface{}) *Entry {
-	if len(params)%2 != 0 {
-		return e
-	}
-
-	for i := 0; i < len(params); i += 2 {
-		key := params[i].(string)
-		e.Params[key] = params[i+1]
-	}
-
-	return e
-}
-
-func (e *Entry) Submit() error {
-	return e.callback(e.Event)
-}
-
 type Logger struct {
-	nonBlocking bool
-	writer      writer.Writer
 	formatter   Formatter
+	writer      writer.Writer
+	nonBlocking bool
 }
 
 func NewLogger(nonBlocking bool, w writer.Writer, f Formatter) *Logger {
@@ -195,5 +174,5 @@ func (l *Logger) Write(bytes []byte) (int, error) {
 }
 
 func (l *Logger) Printf(format string, params ...interface{}) {
-	_ = l.WriteLog(LevelTrace, fmt.Sprintf(format, params), nil).Submit()
+	_ = l.WriteLog(LevelTrace, fmt.Sprintf(format, params...), nil).Submit()
 }

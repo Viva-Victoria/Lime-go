@@ -6,8 +6,8 @@ import (
 )
 
 type CoreWriteSyncer struct {
-	sync   bool
 	writer writer.Writer
+	sync   bool
 }
 
 func NewWriteSyncer(sync bool, writer writer.Writer) zapcore.WriteSyncer {

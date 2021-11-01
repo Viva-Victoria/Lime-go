@@ -2,14 +2,15 @@ package systemd
 
 import (
 	"encoding/json"
+
 	"github.com/Viva-Victoria/Lime-go/log"
 )
 
 type ValueFormatter func(value interface{}) string
 
 type Config struct {
-	log.Config
 	FormatValue ValueFormatter
+	log.Config
 }
 
 func DefaultConfig() Config {
